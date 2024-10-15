@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${session.get('user').getPseudo()}"></title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+
+    <span th:replace="~{/fragments/import :: bootstrap}"></span>
+    <span th:replace="~{/fragments/import :: styles('profile')}"></span>
+    <span th:replace="~{/fragments/import :: scripts('')}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="~{fragments/header :: header('')}"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-1 my-1">
+        <div class="d-flex justify-content-center">
+            <div class="mx-5">
+                <h1 class="display-5 fw-bold text-body-emphasis mt-4" th:text="${session.get('user').getPseudo()}"></h1>
+                <p th:text="${session.get('user').getAge() + ' years old'}"></p>
+                <a th:href="@{mailto:{email}(email=${session.get('user').getEmail()})}">
+                    <p th:text="${session.get('user').getEmail()}"></p>
+                </a>
+                <p>
+                    <strong class="text-warning">ELO</strong> :
+                    <span th:text="${session.get('user').getElo()}"></span>
+                </p>
+                <p th:text="${session.get('user').getCountry().getLabel()} + ' [' + ${session.get('user').getCountry().getTag()} + ']'"></p>
+            </div>
+            <div class="mx-5 d-flex flex-column">
+                <img class="img-fluid w-200px rounded-circle mb-3" src="/images/default_avatar.jpg" alt="avatar">
+                <a href="#" class="btn btn-outline-success align-self-center">Change avatar</a>
+            </div>
+        </div>
+        <div class="d-block justify-content-start border-top mx-5 px-5 mt-5 pt-4">
+            <h2 class="mb-4">My tournaments</h2>
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-action d-flex flex-row justify-content-between"
+                    th:each="tournament : ${session.get('user').getTournaments()}">
+                    <div class="d-flex flex-row my-auto">
+                        <div class="my-auto">
+                            <h5 class="mb-1" th:text="${tournament.getLabel() + ' (' + tournament.getStatus().name().toLowerCase().replaceAll('_', ' ') + ')'}"></h5>
+                            <small class="d-block">Format: <strong th:text="${tournament.getFormat().name().replaceAll('_', ' ')}"></strong></small>
+                            <small class="d-block" th:if="${tournament.getStatus().name().equals('FINISHED')}">Total score: <strong th:text="${tournament.getScore(session.get('user'))}"></strong></small>
+                            <small class="text-muted"
+                                   th:text="${tournament.getStartDate()} + ' - ' + ${tournament.getEndDate()}"></small>
+                        </div>
+                        <div class="my-auto mx-3">
+
+                        </div>
+                    </div>
+                    <div class="my-auto">
+                        <p class="text-end" th:text="${tournament.getUsers().size() + ' registered players'}"></p>
+                        <a class="me-2 text-decoration-none" href="#" data-bs-toggle="tooltip"
+                           title="See the messages for this tournament">
+                            <img class="h-32px" src="/images/messages.png" alt="messages">
+                        </a>
+                        <a class="btn btn-primary" th:href="@{/tournaments/id={id}(id=${tournament.getId()})}">
+                            See details
+                        </a>
+                        <a class="btn btn-danger" href="">
+                            Quit
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<footer th:insert="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

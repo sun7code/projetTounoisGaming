@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+
+    <span th:replace="~{/fragments/import :: bootstrap}"></span>
+    <span th:replace="~{/fragments/import :: styles('')}"></span>
+    <span th:replace="~{/fragments/import :: scripts('')}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="~{fragments/header :: header('')}"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-5 my-5 text-center max-w-330px mx-auto">
+        <img class="d-block mx-auto mb-4 img-fluid w-100px" src="/images/logo.png" alt="logo"/>
+        <h1 class="display-5 fw-bold text-body-emphasis">Signup</h1>
+
+        <div class="form-signin w-100 m-auto">
+            <form th:action="@{/signup}" th:object="${user}" method="post">
+                <div class="form-floating">
+                    <input type="text"
+                           class="form-control"
+                           id="pseudo"
+                           name="pseudo"
+                           placeholder="Pseudo"
+                           th:field="*{pseudo}"
+                           required>
+                    <label for="pseudo">Pseudo</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('pseudo')}"
+                           th:errors="*{pseudo}"></small>
+                </div>
+                <div class="form-floating">
+                    <input type="email"
+                           class="form-control"
+                           id="email"
+                           name="email"
+                           placeholder="Email"
+                           th:field="*{email}"
+                           required>
+                    <label for="email">Email</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('email')}"
+                           th:errors="*{email}"></small>
+                </div>
+                <div class="form-floating">
+                    <input type="password"
+                           class="form-control"
+                           id="password"
+                           name="password"
+                           placeholder="Password"
+                           th:field="*{password}"
+                           required>
+                    <label for="password">Password</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('password')}"
+                           th:errors="*{password}"></small>
+                </div>
+                <div class="form-floating">
+                    <input type="date"
+                           class="form-control"
+                           id="birthDate"
+                           name="birthDate"
+                           placeholder="Birth date"
+                           max="9999-12-31"
+                           th:field="*{birthDate}"
+                           required>
+                    <label for="birthDate">Birth date</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('birthDate')}"
+                           th:errors="*{birthDate}"></small>
+                </div>
+                <div class="form-floating">
+                    <select class="form-control"
+                            id="country"
+                            name="country"
+                            th:field="*{country}"
+                            required>
+                        <option th:each="country : ${countries}" th:value="${country.id}"
+                                th:text="${country.label}"></option>
+                    </select>
+                    <label for="country">Country</label>
+                    <small class="text-danger" th:if="${#fields.hasErrors('country')}"
+                           th:errors="*{country}"></small>
+                </div>
+
+                <button class="btn btn-primary w-100 my-3 py-2" type="submit">Sign up</button>
+            </form>
+
+            <span>Already have an account ? <a class="text-decoration-none" th:href="@{/login}">Log in</a></span>
+        </div>
+    </div>
+</main>
+
+<footer th:insert="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

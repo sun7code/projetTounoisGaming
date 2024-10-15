@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des tournois</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+
+    <span th:replace="~{/fragments/import :: bootstrap}"></span>
+    <span th:replace="~{/fragments/import :: styles('tournaments')}"></span>
+    <span th:replace="~{/fragments/import :: scripts('')}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="~{fragments/header :: header('')}"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold text-body-emphasis">Liste des Tournois</h1>
+    </div>
+
+    <!-- Liste des tournois -->
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Type</th>
+            <th scope="col">Date</th>
+            <th scope="col">Statut</th>
+            <th scope="col">Détails</th>
+            <th scope="col">S'inscrire</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tournament : ${tournaments}">
+            <td th:text="${tournament.getLabel()}"></td>
+            <td th:text="${tournament.getFormat()}"></td>
+            <td th:text="${tournament.startDate}"></td>
+            <td th:text="${tournament.getStatus()}"></td>
+            <td>
+                <a th:href="@{/tournaments/id={id}(id=${tournament.getId()})}" class="btn btn-info btn-sm">Détails</a>
+            </td>
+            <td>
+<!--                <form th:action="@{/tournaments/join/id={id}(id=${tournament.getId()})}" method="post">-->
+<!--                    <button type="submit" class="btn btn-success btn-sm" >-->
+<!--                        &lt;!&ndash;                <button  class="btn btn-success btn-sm">&ndash;&gt;-->
+<!--                        S'inscrire-->
+<!--                    </button>-->
+<!--                    <form>-->
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer th:insert="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

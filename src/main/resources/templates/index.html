@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tournaments</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+
+    <span th:replace="~{/fragments/import :: bootstrap}"></span>
+    <span th:replace="~{/fragments/import :: styles('index')}"></span>
+    <span th:replace="~{/fragments/import :: scripts('')}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="~{fragments/header :: header('/')}"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4 img-fluid w-200px" src="/images/logo.png" alt="logo"/>
+        <h1 class="display-5 fw-bold text-body-emphasis">Tournaments</h1>
+
+        <div class="col-lg-6 mx-auto">
+            <small class="d-block text-body-secondary">Guillaume Ballé</small>
+            <small class="d-block text-body-secondary">Thibault Garcia</small>
+            <small class="d-block text-body-secondary">Maxime Javaux</small>
+        </div>
+    </div>
+</main>
+
+<main class="container flex-grow-1"></main>
+
+<footer th:insert="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

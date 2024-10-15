@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+
+    <span th:replace="~{/fragments/import :: bootstrap}"></span>
+    <span th:replace="~{/fragments/import :: styles('')}"></span>
+    <span th:replace="~{/fragments/import :: scripts('')}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="~{fragments/header :: header('')}"></header>
+
+<main class="container flex-grow-1">
+    <div class="px-4 py-5 my-5 text-center max-w-330px mx-auto">
+        <img class="d-block mx-auto mb-4 img-fluid w-100px" src="/images/logo.png" alt="logo"/>
+        <h1 class="display-5 fw-bold text-body-emphasis">Password recovery</h1>
+
+        <div class="form-signin w-100 m-auto">
+            <small class="text-success" th:if="${passwordUpdate != null}" th:text="${passwordUpdate}"></small>
+
+            <form th:action="@{/newPassword}" method="post">
+                <div class="form-floating">
+                    <input type="email"
+                           class="form-control"
+                           id="login-email"
+                           name="email"
+                           placeholder="Email"
+                           required>
+                    <label for="login-email">Email</label>
+                    <small class="text-danger" th:if="${errorEmail != null}" th:text="${errorEmail}"></small>
+
+                </div>
+                <div class="form-floating">
+                    <input type="password"
+                           class="form-control"
+                           id="login-password"
+                           name="login-password"
+                           placeholder="Password"
+                           required>
+                    <label for="login-password">Password</label>
+                    <small class="text-danger" th:if="${errorPassword != null}" th:text="${errorPassword}"></small>
+                </div>
+                <div class="form-floating">
+                    <input type="password"
+                           class="form-control"
+                           id="login-password-confirm"
+                           name="login-password-confirm"
+                           placeholder="Password confirmation"
+                           required>
+                    <label for="login-password-confirm">Password confirmation</label>
+                </div>
+
+                <button class="btn btn-primary w-100 my-3 py-2" type="submit">update</button>
+            </form>
+
+            <span>Don't have an account yet ? <a class="text-decoration-none" th:href="@{/signup}">Sign up</a></span>
+        </div>
+    </div>
+</main>
+
+
+<footer th:insert="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

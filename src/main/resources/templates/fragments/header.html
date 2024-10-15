@@ -1,0 +1,76 @@
+<th:block th:fragment="header(currentUrl)">
+    <div class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <img class="img-fluid h-32px" src="/images/logo.png" alt="logo"/>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li>
+                        <a href="/"
+                           class="nav-link px-2"
+                           th:classAppend="${currentUrl == '/' ? 'text-secondary' : 'text-white'}">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/tournaments"
+                           class="nav-link px-2"
+                           th:classAppend="${currentUrl == '/tournaments' ? 'text-secondary' : 'text-white'}">
+                            All tournaments
+                        </a>
+                    </li>
+                    <li th:if="${session.get('isLoggedIn') != null && session.get('isLoggedIn')}">
+                        <a href="/newTournament"
+                           class="nav-link px-2"
+                           th:classAppend="${currentUrl == '/newTournament' ? 'text-secondary' : 'text-white'}">
+                            Create a tournament
+                        </a>
+                    </li>
+
+                    <!-- Add more links here -->
+                </ul>
+
+                <div class="text-end"
+                     th:if="${session.get('isLoggedIn') == null || session.get('user') == null || (session.get('isLoggedIn') != null && !session.get('isLoggedIn'))}">
+                    <a th:href="@{/signup}" class="btn btn-success">Signup</a>
+                    <a th:href="@{/login}" class="btn btn-outline-light me-2">Login</a>
+                </div>
+                <div class="text-end"
+                     th:if="${session.get('isLoggedIn') != null && session.get('user') != null && session.get('isLoggedIn') && session.get('user') != null}">
+                    <form th:action="@{/logout}" method="post" class="d-inline mx-3">
+                        <button class="btn btn-sm btn-danger" type="submit">Logout</button>
+                    </form>
+
+                    <div class="dropdown d-inline" data-bs-toggle="dropdown">
+                        <img src="/images/default_avatar.jpg" class="rounded-circle h-50px" alt="Avatar">
+                        <div class="dropdown-menu w-300px py-0">
+                            <div class="card">
+                                <img class="card-img-top" src="/images/default_avatar.jpg" alt="Card image">
+                                <div class="card-body">
+                                    <h4 class="card-title mb-3" th:text="${session.get('user').getPseudo()}"></h4>
+                                    <p class="card-text mb-0"
+                                       th:text="${session.get('user').getAge() + ' ans'}"></p>
+                                    <a th:href="@{mailto:{email}(email=${session.get('user').getEmail()})}">
+                                        <p class="card-text" th:text="${session.get('user').getEmail()}"></p>
+                                    </a>
+                                    <p class="card-text">
+                                        <strong class="text-warning">ELO</strong> :
+                                        <span th:text="${session.get('user').getElo()}"></span>
+                                    </p>
+                                    <div class="d-flex justify-content-end">
+                                        <a id="header-seeprofile"
+                                           class="btn btn-sm btn-outline-success mx-2">
+                                            See profile
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>

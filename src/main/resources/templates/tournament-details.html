@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails du Tournoi</title>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+    <span th:replace="~{/fragments/import :: bootstrap}"></span>
+    <span th:replace="~{/fragments/import :: styles('tournament-details')}"></span>
+    <span th:replace="~{/fragments/import :: bootstrap}"></span>
+    <span th:replace="~{/fragments/import :: styles('')}"></span>
+    <span th:replace="~{/fragments/import :: scripts('')}"></span>
+
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="~{fragments/header :: header('')}"></header>
+
+<main class="container flex-grow-1 mt-5">
+    <!-- Détails du tournoi -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold">Détails du Tournoi</h1>
+    </div>
+
+    <div class="card shadow mt-4">
+        <div class="card-body">
+            <div class="card-body">
+                <h3>Nom du Tournoi : <strong th:text="${tournament.label}"></strong></h3>
+                <p>Type de tournoi : <span th:text="${tournament.format}"></span></p>
+                <p>Date de début : <span th:text="${tournament.startDate}"></span></p>
+                <p>Date de fin : <span th:text="${tournament.endDate}"></span></p>
+            </div>
+        </div>
+        <div>
+            <form th:action="@{/finishTournament/id={idTournament}(idTournament=${tournament.getId()})}" method="post">
+                <button type="submit" class="btn btn-primary">
+                    Finish the tournament
+                </button>
+            </form>
+        </div>
+
+        <!-- Bouton pour supprimer le tournoi (affiché uniquement pour le créateur) -->
+        <div class="card-footer text-end" th:if="${isCreator}">
+            <a th:href="@{/deleteTournament/id={id}(id=${tournament.getId()})}" class="btn btn-danger">
+                Supprimer le tournoi
+            </a>
+        </div>
+    </div>
+    <div th:each="user : ${tournament.getUsers()}">
+        <p th:text="${user.getPseudo()}"></p>
+    </div>
+
+    <!-- Formulaire pour ajouter des commentaires -->
+    <div class="card mt-5">
+        <div class="card-body">
+            <h4>Commentaires</h4>
+            <ul class="list-group" id="commentsList">
+                <!-- Liste des commentaires existants -->
+                <li class="list-group-item"><strong>Utilisateur X :</strong> Commentaire exemple</li>
+            </ul>
+        </div>
+
+        <div class="card-footer">
+            <form id="commentForm" class="d-flex">
+                <input type="text" id="commentText" class="form-control me-2" placeholder="Ajouter un commentaire...">
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:insert="~{fragments/footer :: footer}"></footer>
+
+<!-- Validation et gestion des commentaires -->
+<script>
+    document.getElementById('commentForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const commentText = document.getElementById('commentText').value;
+
+        if (commentText.trim()) {
+            // Ajouter le commentaire dans la liste des commentaires
+            const commentList = document.getElementById('commentsList');
+            const newComment = document.createElement('li');
+            newComment.className = 'list-group-item';
+            newComment.innerHTML = `<strong>Utilisateur X :</strong> ${commentText}`;
+            commentList.appendChild(newComment);
+
+            // Réinitialiser le champ de texte
+            document.getElementById('commentText').value = '';
+        } else {
+            alert("Veuillez entrer un commentaire.");
+        }
+    });
+</script>
+
+</body>
+</html>

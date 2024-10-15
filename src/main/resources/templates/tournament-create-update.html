@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Créer/Mettre à jour un Tournoi</title>
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+  <span th:replace="~{/fragments/import :: bootstrap}"></span>
+  <span th:replace="~{/fragments/import :: styles('tournament')}"></span>
+</head>
+<body class="d-flex min-vh-100 flex-column">
+
+<header th:insert="~{fragments/header :: header('')}"></header>
+
+<main class="container flex-grow-1 mt-5">
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold">Créer ou Mettre à jour un Tournoi</h1>
+    <p class="text-danger" th:text="${statusMessage}"></p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <form th:action="@{/newTournament}" th:object="${tournament}" method="post" id="tournamentForm">
+        <div class="mb-3">
+          <label for="tournamentName" class="form-label">Nom du tournoi</label>
+          <input type="text" class="form-control" id="tournamentName" name="tournamentName" th:field="*{label}" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="tournamentType" class="form-label">Type de tournoi</label>
+          <select class="form-select" id="tournamentType" name="tournamentType" th:field="*{format}" required>
+            <option value="" disabled selected>Choisissez un type</option>
+            <option th:each="format : ${formats}" th:value="${format}" th:text="${format}"></option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="startDate" class="form-label">Date de début</label>
+          <input type="date" class="form-control" id="startDate" name="startDate" th:field="*{startDate}" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="endDate" class="form-label">Date de fin</label>
+          <input type="date" class="form-control" id="endDate" name="endDate" th:field="*{endDate}" required>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">Créer/Mettre à jour le tournoi</button>
+          <button type="reset" class="btn btn-secondary">Réinitialiser</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer th:insert="~{fragments/footer :: footer}"></footer>
+
+<script>
+  document.getElementById('tournamentForm').addEventListener('submit', function(event) {
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    if (new Date(startDate) > new Date(endDate)) {
+      event.preventDefault();
+      alert('La date de début doit être antérieure à la date de fin.');
+    }
+  });
+</script>
+
+</body>
+</html>
